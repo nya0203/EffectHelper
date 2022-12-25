@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace nya0203\effect\buffer;
 
 use pocketmine\network\mcpe\protocol\ClientboundPacket;

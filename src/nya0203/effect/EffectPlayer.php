@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace nya0203\effect;
 
 use nya0203\effect\buffer\EffectBuffer;
-use nya0203\effect\EffectCache;
+use nya0203\effect\content\EffectContentCache;
 use pocketmine\math\Vector3;
 use pocketmine\utils\ObjectSet;
 
@@ -12,17 +14,19 @@ class EffectPlayer {
     private ObjectSet $effects;
     private EffectBuffer $buffer;
 
-    /** @var EffectCache[] */
-    private array $cache = [];
+    private EffectContentCache $cache;
 
     public function __construct() {
         $this->effects = new ObjectSet();
         $this->buffer = new EffectBuffer();
+        $this->cache = new EffectContentCache();
     }
 
     private function addEffect(Effect $effect, Vector3 $center, array $viewers): EffectHandler {
         $handler =  new EffectHandler($effect, $center, $viewers);
         $this->effects->add($handler);
+        if(($cache = $this->cache->get($handler->getEffectId())) !== null)
+            $handler->loadCache($cache);
         return $handler;
     }
 
@@ -33,8 +37,11 @@ class EffectPlayer {
     public function playEffect(EffectHandler $effect): void {
         if($effect->isCancelled() || $effect->isEnded())
             $this->effects->remove($effect);
-        else
+        else {
             $effect->play($this->buffer);
+            if(!$this->cache->contains(($effectId = $effect->getEffectId())))
+                $this->cache->put($effectId, $effect->getContent());
+        }
     }
 
     public function playEffects(): void {

@@ -1,7 +1,8 @@
 <?php
 
-namespace nya0203\effect\buffer;
+declare(strict_types=1);
 
+namespace nya0203\effect\buffer;
 
 class EffectBufferReader {
     private array $buffer;
@@ -14,10 +15,9 @@ class EffectBufferReader {
         return count($this->buffer);
     }
 
-    public function read(): ?array {
+    /** @return EffectBufferData[] */
+    public function read(): array {
         $buffer = $this->buffer;
-        if(empty($buffer))
-            return null;
         $this->buffer = [];
         return $buffer;
     }

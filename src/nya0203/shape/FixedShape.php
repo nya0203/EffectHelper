@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace nya0203\shape;
 
 use pocketmine\math\Vector3;

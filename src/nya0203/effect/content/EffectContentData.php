@@ -1,12 +1,14 @@
 <?php
 
-namespace nya0203\effect;
+declare(strict_types=1);
+
+namespace nya0203\effect\content;
 
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;
 use pocketmine\world\particle\Particle;
 
-class EffectMotionData {
+class EffectContentData {
     public function __construct(private Particle $particle, private Vector3 $vector) {
     }
 
@@ -18,7 +20,8 @@ class EffectMotionData {
         return $this->vector;
     }
 
-    public function getParticlePacket(Vector3 $center): ClientboundPacket {
-        return $this->particle->encode($center->addVector($this->vector))[0];
+    /** @return ClientboundPacket[] */
+    public function particleEncode(Vector3 $center): array {
+        return $this->particle->encode($center->addVector($this->vector));
     }
 }

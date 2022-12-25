@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 namespace nya0203\motion;
-
-
 
 use nya0203\math\Vector4;
 use nya0203\shape\Shape;
