@@ -3,7 +3,7 @@
 namespace nya0203\effect;
 
 
-use nya0203\effect\cache\EffectCache;
+use nya0203\effect\EffectCache;
 use nya0203\motion\Motion;
 use nya0203\shape\Shape;
 use pocketmine\world\particle\Particle;

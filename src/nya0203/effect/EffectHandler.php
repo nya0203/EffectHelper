@@ -3,7 +3,7 @@
 namespace nya0203\effect;
 
 use nya0203\effect\buffer\EffectBuffer;
-use nya0203\effect\cache\EffectCacheData;
+use nya0203\effect\EffectMotionData;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 
@@ -104,7 +104,7 @@ class EffectHandler {
         return $this->effectId;
     }
 
-    /** @return EffectCacheData[] */
+    /** @return EffectMotionData[] */
     private function readCache(int $index): array {
         return $this->effect->getCache()->get($index);
     }

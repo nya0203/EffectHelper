@@ -1,12 +1,12 @@
 <?php
 
-namespace nya0203\effect\cache;
+namespace nya0203\effect;
 
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;
 use pocketmine\world\particle\Particle;
 
-class EffectCacheData {
+class EffectMotionData {
     public function __construct(private Particle $particle, private Vector3 $vector) {
     }
 

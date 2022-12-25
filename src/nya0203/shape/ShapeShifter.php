@@ -2,19 +2,26 @@
 
 namespace nya0203\shape;
 
-use nya0203\shape\Shape;
 use pocketmine\math\Vector3;
 
 class ShapeShifter {
-    public function removeOverlapPoint(Shape $shape): Shape {
+    public Static function removeOverlapPoint(Shape $shape): Shape {
         $points = $shape->get();
         $points_map = [];
         foreach($points as $point)
-            $points_map[$this->pointToString($point)] = $point;
+            $points_map[self::pointToString($point)] = $point;
         return new FixedShape(array_values($points_map));
     }
 
-    private function pointToString(Vector3 $point): string {
+    public static function rotate(Shape $shape, $x, $y, $z): Shape {
+
+    }
+
+    public static function move(Shape $shape, $x, $y, $z): Shape {
+
+    }
+
+    private static function pointToString(Vector3 $point): string {
         return $point->x. ":". $point->y. ":". $point->z;
     }
 }

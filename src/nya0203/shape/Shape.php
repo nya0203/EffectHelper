@@ -20,6 +20,4 @@ abstract class Shape {
             $this->calculation();
         return $this->points;
     }
-
-
 }

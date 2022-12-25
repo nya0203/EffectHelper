@@ -1,6 +1,6 @@
 <?php
 
-namespace nya0203\effect\cache;
+namespace nya0203\effect;
 
 use nya0203\math\Vector4;
 use pocketmine\world\particle\Particle;
@@ -13,7 +13,7 @@ class EffectCache {
         $cache = &$this->caches[$index];
         if(!is_array($cache))
             $cache = [];
-        $cache[] = new EffectCacheData($particle, $vector4->toVector3());
+        $cache[] = new EffectMotionData($particle, $vector4->toVector3());
     }
 
     public function isEmpty(): bool {
@@ -21,7 +21,7 @@ class EffectCache {
     }
 
     /**
-     * @return EffectCacheData[]
+     * @return EffectMotionData[]
      */
     public function get(int $index): array {
         return $this->caches[$index];
