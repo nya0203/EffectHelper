@@ -3,6 +3,7 @@
 namespace nya0203\effect;
 
 use nya0203\effect\buffer\EffectBuffer;
+use nya0203\effect\EffectCache;
 use pocketmine\math\Vector3;
 use pocketmine\utils\ObjectSet;
 
@@ -10,6 +11,9 @@ class EffectPlayer {
     /** @phpstan-var ObjectSet<EffectHandler> */
     private ObjectSet $effects;
     private EffectBuffer $buffer;
+
+    /** @var EffectCache[] */
+    private array $cache = [];
 
     public function __construct() {
         $this->effects = new ObjectSet();
