@@ -16,25 +16,22 @@ class EffectContent {
             $time = $contentData->getTime() + $delay;
             if(!isset($this->content[$time]))
                 $this->content[$time] = [];
-            $content = &$this->content[$time];
             foreach($contentData->getShapeContent()->get() as $vector3)
-                $content[] = new EffectContentData($particle, $contentData->getOffCenter()->addVector($vector3));
+                $this->content[$time][] = new EffectContentData($particle, $contentData->getOffCenter()->addVector($vector3));
         }
     }
 
     public function putContentData(EffectContentData $contentData, int $time): void {
-        $content = &$this->content[$time];
-        if(!is_array($content))
-            $content = [];
-        $content[] = $contentData;
+        if(!isset($this->content[$time]))
+            $this->content[$time] = [];
+        $this->content[$time][] = $contentData;
     }
 
     /** @param EffectContentData[] $contentDataArray */
     public function putContentDataArray(array $contentDataArray, int $time): void {
         if(!isset($this->content[$time]))
             $this->content[$time] = [];
-        $content = &$this->content[$time];
-        $content = array_merge($content, $contentDataArray);
+        $this->content[$time] = array_merge($this->content[$time], $contentDataArray);
     }
 
     /** @return EffectContentData[] */

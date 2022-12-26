@@ -25,8 +25,7 @@ class ParticlePacketSendTask extends Task {
                 $viewerName = $viewer->getName();
                 if(!isset($queue[$viewerName]))
                     $queue[$viewerName] = [];
-                $viewerQueue = &$queue[$viewerName];
-                $viewerQueue = array_merge($viewerQueue, $readline->getPackets());
+                $queue[$viewerName] = array_merge($queue[$viewerName], $readline->getPackets());
             }
         }
         $plugin = EffectHelper::getInstance();
