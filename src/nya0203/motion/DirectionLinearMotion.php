@@ -12,6 +12,8 @@ class DirectionLinearMotion extends Motion {
 
     /**
      * The direction vector is a unit vector representing only the direction.
+     * But it doesn't have to be a unit vector.
+     *
      * The speed is in m/s.
      * The duration is in seconds.
      * The afterimage interval is in meters.
