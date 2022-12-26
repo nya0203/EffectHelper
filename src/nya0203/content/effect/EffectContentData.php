@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace nya0203\effect\content;
+namespace nya0203\content\effect;
 
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;

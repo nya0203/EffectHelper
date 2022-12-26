@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace nya0203\effect;
 
+use nya0203\content\effect\EffectContentCache;
 use nya0203\effect\buffer\EffectBuffer;
-use nya0203\effect\content\EffectContentCache;
 use pocketmine\math\Vector3;
 use pocketmine\utils\ObjectSet;
 

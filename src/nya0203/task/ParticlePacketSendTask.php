@@ -7,7 +7,7 @@ namespace nya0203\task;
 use nya0203\effect\buffer\EffectBufferReader;
 use nya0203\effect\EffectPlayer;
 use nya0203\EffectHelper;
-use pocketmine\scheduler\TasK;
+use pocketmine\scheduler\Task;
 
 class ParticlePacketSendTask extends Task {
     public function __construct(private EffectPlayer $player) {

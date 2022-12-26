@@ -2,27 +2,23 @@
 
 declare(strict_types=1);
 
-namespace nya0203\effect\content;
+namespace nya0203\content\effect;
 
-use nya0203\motion\Motion;
-use nya0203\shape\Shape;
+use nya0203\content\motion\MotionContent;
 use pocketmine\world\particle\Particle;
 
 class EffectContent {
     private array $content = [];
 
-    public function put(Particle $particle, Shape $shape, Motion $motion, int $delay = 0): void {
-        $vector4Objs = $motion->get($shape);
-        if($delay > 0) {
-            $vector4Objs = array_map(function ($vector4) use ($delay) {
-                return $vector4->addTime($delay);
-                }, $vector4Objs);
-        }
-        foreach($vector4Objs as $vector4) {
-            $content = &$this->content[$vector4->getTime()];
-            if(!is_array($content))
-                $content = [];
-            $content[] = new EffectContentData($particle, $vector4->toVector3());
+    public function put(Particle $particle, MotionContent $motionContent, int $delay = 0): void {
+        $delay = max(0, $delay);
+        foreach($motionContent->get() as $contentData) {
+            $time = $contentData->getTime() + $delay;
+            if(!isset($this->content[$time]))
+                $this->content[$time] = [];
+            $content = &$this->content[$time];
+            foreach($contentData->getShapeContent()->get() as $vector3)
+                $content[] = new EffectContentData($particle, $contentData->getOffCenter()->addVector($vector3));
         }
     }
 

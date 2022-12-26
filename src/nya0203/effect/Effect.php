@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace nya0203\effect;
 
-use nya0203\effect\content\EffectContent;
+use nya0203\content\effect\EffectContent;
 
 abstract class Effect {
     private ?EffectHandler $effectHandler = null;

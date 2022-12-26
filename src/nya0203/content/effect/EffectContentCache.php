@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace nya0203\effect\content;
+namespace nya0203\content\effect;
 
 use Generator;
 use pocketmine\math\Vector3;
