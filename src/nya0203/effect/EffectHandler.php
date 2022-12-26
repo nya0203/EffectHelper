@@ -27,6 +27,7 @@ class EffectHandler {
     public function __construct(protected Effect $effect, protected Vector3 $center, protected array $viewers) {
         $this->effect->setHandler($this);
         $this->effectId = spl_object_id($this->effect);
+        $this->content = new EffectContent();
     }
 
     /** @return Player[] */
@@ -59,16 +60,15 @@ class EffectHandler {
     }
 
     public function play(EffectBuffer $buffer): void {
+        if($this->content->isEmpty())
+            $this->effect->onPlay($this->content);
         if($this->runtime == $this->getNextPlay()) {
             $packets = [];
-            if($this->content->isEmpty())
-                $this->effect->onPlay($this->content);
             foreach($this->content->get($this->runtime) as $contentData)
                 $packets = array_merge($packets, $contentData->particleEncode($this->getCenter()));
             $buffer->put($this->getViewers(), $packets);
-            if($this->getLength() == $this->timelineIndex)
+            if(count($this->content->getTimeline()) == ++$this->timelineIndex)
                 $this->end();
-            $this->timelineIndex++;
         }
         $this->runtime++;
     }
