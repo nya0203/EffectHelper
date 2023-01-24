@@ -6,7 +6,6 @@ namespace nya0203\effect;
 
 use nya0203\content\effect\EffectContentCache;
 use nya0203\effect\buffer\EffectBuffer;
-use pocketmine\math\Vector3;
 use pocketmine\utils\ObjectSet;
 
 class EffectPlayer {
@@ -22,16 +21,16 @@ class EffectPlayer {
         $this->cache = new EffectContentCache();
     }
 
-    private function addEffect(Effect $effect, Vector3 $center, array $viewers): EffectHandler {
-        $handler =  new EffectHandler($effect, $center, $viewers);
+    private function addEffect(Effect $effect, EffectCenterVector $centerVector, array $viewers): EffectHandler {
+        $handler =  new EffectHandler($effect, $centerVector, $viewers);
         $this->effects->add($handler);
         if(($cache = $this->cache->get($handler->getEffectId())) !== null)
             $handler->loadCache($cache);
         return $handler;
     }
 
-    public function registerEffect(Effect $effect, Vector3 $center, array $viewers): EffectHandler {
-        return $this->addEffect($effect, $center, $viewers);
+    public function registerEffect(Effect $effect, EffectCenterVector $centerVector, array $viewers): EffectHandler {
+        return $this->addEffect($effect, $centerVector, $viewers);
     }
 
     public function playEffect(EffectHandler $effect): void {

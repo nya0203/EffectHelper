@@ -9,11 +9,25 @@ use nya0203\content\shape\ShapeContent;
 use nya0203\shape\Shape;
 
 abstract class Motion {
-    protected abstract function calculate(MotionContent $content, ShapeContent $shapeContent);
+    protected abstract function write(MotionContent $content, ShapeContent $shapeContent, int $time): void;
 
-    public function get(ShapeContent $shapeContent): MotionContent {
+    /**
+     * The duration is in seconds.
+     */
+    public function get(ShapeContent $shapeContent, int|float $duration): MotionContent {
         $content = new MotionContent();
-        $this->calculate($content, $shapeContent);
+        $duration = (int)($duration / 0.05);
+        for($tick = 0; $tick <= $duration; $tick++) {
+            $this->write($content, $shapeContent, $tick);
+        }
         return $content;
+    }
+
+    public function multi(Motion $subMotion): MultiMotion {
+        return new MultiMotion($this, $subMotion);
+    }
+
+    public function chain(Motion $subMotion): ChainMotion {
+        return new ChainMotion($this, $subMotion);
     }
 }

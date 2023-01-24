@@ -7,11 +7,11 @@ namespace nya0203\shape;
 use nya0203\content\shape\ShapeContent;
 
 abstract class Shape {
-    protected abstract function calculate(ShapeContent $content);
+    protected abstract function write(ShapeContent $content): void;
 
     public function get(): ShapeContent {
         $content = new ShapeContent();
-        $this->calculate($content);
+        $this->write($content);
         return $content;
     }
 }

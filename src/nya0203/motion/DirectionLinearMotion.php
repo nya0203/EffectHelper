@@ -15,29 +15,27 @@ class DirectionLinearMotion extends Motion {
      * But it doesn't have to be a unit vector.
      *
      * The speed is in m/s.
-     * The duration is in seconds.
      * The afterimage interval is in meters.
      */
     public function __construct(private Vector3 $directionVector,
                                 private float $speed,
-                                private float|int $duration,
                                 private float|int|null $afterimageInterval = null) {
     }
 
-    protected function calculate(MotionContent $content, ShapeContent $shapeContent) {
+    protected function write(MotionContent $content, ShapeContent $shapeContent, int $time): void {
         $center = new Vector3(0, 0 ,0);
         $directionVector = $this->directionVector;
         $distance = $directionVector->distance($center);
         if($distance > 0)
             $directionVector = $directionVector->divide($distance); // to unit vector
         $speed = $this->speed * 0.05; //to meter per tick.
-        $duration = floor($this->duration / 0.05); // to tick.
-        $interval = $this->afterimageInterval ?? $speed;
-        $offCenter = $center;
-        $vector = $directionVector->multiply($interval);
-        for($tick = 0; $tick < $duration; $tick += $interval/$speed) {
-            $content->put($shapeContent, $offCenter, (int)floor($tick));
-            $offCenter = $offCenter->addVector($vector);
+        $interval = $this->afterimageInterval ?? abs($speed);
+        $interval = $interval * ($speed / abs($speed));
+        $beforeCount = floor($speed * ($time - 1) / $interval);
+        for($count = 1; $count <= floor($speed * $time / $interval) - $beforeCount; $count++) {
+            $beforeOffCenter = $directionVector->multiply($interval * $beforeCount);
+            $vector = $directionVector->multiply($interval * $count);
+            $content->put($shapeContent, $beforeOffCenter->addVector($vector), $time);
         }
     }
 }

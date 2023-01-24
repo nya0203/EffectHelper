@@ -30,7 +30,10 @@ class ParticlePacketSendTask extends Task {
         }
         $plugin = EffectHelper::getInstance();
         foreach($queue as $name => $packets) {
-            $recipient = $plugin->getServer()->getPlayerExact($name)->getNetworkSession();
+            $player = $plugin->getServer()->getPlayerExact($name);
+            if($player === null)
+                continue;
+            $recipient = $player->getNetworkSession();
             $recipient->getBroadcaster()->broadcastPackets([$recipient], $packets);
         }
     }

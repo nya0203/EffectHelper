@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace nya0203\content\effect;
 
 use nya0203\content\motion\MotionContent;
-use pocketmine\world\particle\Particle;
+use nya0203\particle\EffectParticle;
 
 class EffectContent {
     private array $content = [];
 
-    public function put(Particle $particle, MotionContent $motionContent, int $delay = 0): void {
+    public function put(EffectParticle $particle, MotionContent $motionContent, int $delay = 0): void {
         $delay = max(0, $delay);
         foreach($motionContent->get() as $contentData) {
             $time = $contentData->getTime() + $delay;

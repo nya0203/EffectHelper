@@ -6,7 +6,6 @@ namespace nya0203\effect;
 
 use nya0203\content\effect\EffectContent;
 use nya0203\effect\buffer\EffectBuffer;
-use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 
 class EffectHandler {
@@ -24,7 +23,7 @@ class EffectHandler {
     private int $effectId;
 
     /** @param Player[] $viewers */
-    public function __construct(protected Effect $effect, protected Vector3 $center, protected array $viewers) {
+    public function __construct(protected Effect $effect, protected EffectCenterVector $centerVector, protected array $viewers) {
         $this->effect->setHandler($this);
         $this->effectId = spl_object_id($this->effect);
         $this->content = new EffectContent();
@@ -35,8 +34,8 @@ class EffectHandler {
         return $this->viewers;
     }
 
-    public function getCenter(): Vector3 {
-        return $this->center;
+    public function getCenterVector(): EffectCenterVector {
+        return $this->centerVector;
     }
 
     public function isCancelled(): bool {
@@ -59,14 +58,20 @@ class EffectHandler {
         return $this->content;
     }
 
+    public function getRuntime(): int {
+        return $this->runtime;
+    }
+
     public function play(EffectBuffer $buffer): void {
         if($this->content->isEmpty())
-            $this->effect->onPlay($this->content);
+            $this->effect->write($this->content);
         if($this->runtime == $this->getNextPlay()) {
             $packets = [];
-            foreach($this->content->get($this->runtime) as $contentData)
-                $packets = array_merge($packets, $contentData->particleEncode($this->getCenter()));
+            $playContentData = $this->content->get($this->runtime);
+            foreach($playContentData as $contentData)
+                $packets = array_merge($packets, $contentData->getResult($this->getCenterVector()));
             $buffer->put($this->getViewers(), $packets);
+            $this->effect->onPlay($playContentData);
             if(count($this->content->getTimeline()) == ++$this->timelineIndex)
                 $this->end();
         }
